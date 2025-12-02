@@ -47,7 +47,7 @@ export class NavBar extends LitElement {
 
     constructor() {
         super();
-        this.activeTab = 'home'; // domyślnie strona domowa
+        this.activeTab = 'home';
     }
 
     _onTabClick(tab) {

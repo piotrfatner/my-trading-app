@@ -9,6 +9,18 @@ export class ApiClient {
         return response.json();
     }
 
+    async getInstruments() {
+        const response = await fetch(`${this.baseUrl}/instruments`);
+        if (!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
+        return response.json();
+    }
+
+    async getCurrentPrices() {
+        const response = await fetch(`${this.baseUrl}/instruments/prices/current`);
+        if (!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
+        return response.json();
+    }
+
     async getOrderDetails(orderId) {
         const response = await fetch(`${this.baseUrl}/orders/`+ orderId);
         if (!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
@@ -38,8 +50,6 @@ export class ApiClient {
             } else if (errorBody && errorBody.message) {
                 errorMessage = errorBody.message;
             } else if (typeof errorBody === 'object' && errorBody !== null) {
-                // Handle validation errors map
-                // Filter out internal error fields if they exist but errorMessage wasn't present
                 const knownFields = ['apiPath', 'errorCode', 'errorTime'];
                 const messages = Object.entries(errorBody)
                     .filter(([field]) => !knownFields.includes(field))

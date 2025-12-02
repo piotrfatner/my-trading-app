@@ -1,12 +1,12 @@
 import {LitElement, html, css} from 'lit';
 import {api} from '../services/api-client.js';
-import { translateStatus, formatDate } from '../utils/order-utils.js';
+import {translateStatus, formatDate} from '../utils/order-utils.js';
 
 export class OrderDetails extends LitElement {
     static properties = {
         orderId: {type: String},
         order: {type: Object},
-        open: {type: Boolean},   // true jeśli modal ma być widoczny
+        open: {type: Boolean},
         loading: {type: Boolean},
         error: {type: String}
     };
@@ -65,7 +65,7 @@ export class OrderDetails extends LitElement {
         this.error = '';
         this.order = null;
         try {
-            this.order = await api.getOrderDetails(this.orderId); // GET /orders/{orderId}
+            this.order = await api.getOrderDetails(this.orderId);
         } catch (err) {
             this.error = err.message;
         } finally {
@@ -85,12 +85,12 @@ export class OrderDetails extends LitElement {
                 <div class="modal"><h3>Szczegóły zamówienia ${this.orderId}</h3>
                     ${this.loading ? html`<p>Ładowanie...</p>` : ''}
                     ${this.error ? html`<p style="color:red">${this.error}</p>` : ''}
-                    ${this.order ? html` 
-                        <p>Numer zlecenia: ${this.order.orderId}</p> 
-                        <p>Status: ${translateStatus(this.order.status)}</p> 
-                        <p>ISIN: ${this.order.isin}</p> 
-                        <p>Waluta: ${this.order.tradeCurrency}</p> 
-                        <p>Kurs: ${this.order.executionPrice}</p> 
+                    ${this.order ? html`
+                        <p>Numer zlecenia: ${this.order.orderId}</p>
+                        <p>Status: ${translateStatus(this.order.status)}</p>
+                        <p>ISIN: ${this.order.isin}</p>
+                        <p>Waluta: ${this.order.tradeCurrency}</p>
+                        <p>Kurs: ${this.order.executionPrice}</p>
                         <p>Liczba: ${this.order.quantity}</p>
                         <p>Wartość zlecenia: ${this.order.quantity * this.order.executionPrice}</p>
                         <p>Data rejestracji: ${formatDate(this.order.registrationTime)}</p>
